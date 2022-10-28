@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<script>
+  class Coffee {
+  constructor(Product, Milk,Cream,Latte) {
+    this.Product = Product;
+    this.Milk = Milk;
+    this.Cream = Cream;
+    this.Latte = Latte;
+  }
+}
+
+
+let bills = [];
+let costs = [];
+let prints=[];
+class Bill{
+constructor(product,Milk,Cream,Latte){
+    this.product = product;
+    this.Milk = Milk;
+    this.Cream = Cream;
+    this.Latte = Latte;
+}
+}
+let noc;
+
+function myFunction() {
+  noc=Number(document.getElementById("noc").value);
+  document.getElementById("er").innerHTML="";
+  document.getElementById("billrep").innerHTML="";
+}
+
+
+function addOrder(){
+  
+  if(document.getElementById("noc").value.length==0 ){
+    document.getElementById("er").innerHTML="<b>Please enter number of orders first !!</b>";
+  }
+  else if(Number(document.getElementById("noc").value)<=bills.length){
+    document.getElementById("er").innerHTML="<b>Order completed, please place new order !!</b>";
+  }
+  else{
+    document.getElementById("er").innerHTML="<b>Current placed orders: "+(bills.length+1)+"</b>";  
+  let m=0;
+  if(document.getElementById("m").checked){
+    m=1;
+  }
+  let c=0;
+  if(document.getElementById("c").checked){
+    c=1;
+  }
+  let l=0;
+  if(document.getElementById("l").checked){
+    l=1;
+  }
+  let prod= document.getElementById("cof").value;
+  let b=new Bill(prod,m,c,l);
+  console.log(prod);
+  console.log(m);
+  console.log(c);
+  console.log(l);
+  if((c==0 && m==0 && l==0) || prod=="nul" ){
+    document.getElementById("er").innerHTML="<b>Invalid order details !!, Choose Coffee & Add-on </b>";
+  }
+  else {
+    bills.push(b);
+  }
+  if(noc==1 || noc==bills.length){
+    var prices={
+  Espresso : {
+    "m":60,
+    "c":75,
+    "l":100
+  },
+  Cappuccino :{
+    "m":80,
+    "c":90,
+    "l":125
+  },
+  Latte :{
+    "m":100,
+    "c":125,
+    "l":150
+  }
+}
+    divid=document.getElementById("billrep");
+    pstr="";
+    tb=0;
+    for(let i=0;i<bills.length;i++){
+      p = String(bills[i].product);
+      pstr=pstr+"Order-"+(i+1)+" : "+p+", Add-ons: ";
+      c=0
+      if(bills[i].Milk==1){
+        c+=prices[p]["m"];
+        pstr=pstr+"Milk ";
+      }
+      if(bills[i].Cream==1){
+        c+=prices[p]["c"];
+        pstr=pstr+"Cream ";
+      }
+      if(bills[i].Latte==1){
+        c+=prices[p]["l"];
+        pstr=pstr+"Latte ";
+      }
+      console.log(c);
+      pstr+=", Total coffee cost: "+c+"<br>";
+      costs.push(c);
+      tb+=c;
+      prints.push(pstr+"<br>");
+    }
+    
+    console.log(prints); 
+    divid.innerHTML="<fieldset><legend><b> Bill Report </b></legend><label><br> Total number of coffees ordered: "+bills.length+" </label> <br><p>"+pstr+"<br> Total Cost: "+tb+" </p> </fieldset>";
+    bills=[]
+    prints=[]
+    costs=[]
+  }
+
+  
+}
+
+}
+</script>
+<style>
+table, th, td {
+  border:1px solid black;
+}
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+body {
+  background-image: url("cof.jpg");
+text-align: center;
+background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+     
+
+}
+footer {
+  text-align: center;
+  padding: 3px;
+  background-color: DarkSalmon;
+  color: white;
+}
+</style>
+< >
+  <h1 style="color:blue;"> Jalan Technology Consulting Assignment</h1>
+<h2> Combination of coffees</h2>
+
+<table class="center" style="width:50%">
+  <tr>
+    <th>Product/Add-on</th>
+    <th>Milk</th>
+    <th>Cream</th>
+    <th>Latte</th>
+  </tr>
+  <tr>
+    <td>Espresso</td>
+    <td>60</td>
+    <td>75</td>
+    <td>100</td>
+  </tr>
+  <tr>
+    <td>Cappuccino</td>
+    <td>80</td>
+    <td>90</td>
+    <td>125</td>
+  </tr>
+  <tr>
+    <td>Latte</td>
+    <td>100</td>
+    <td>125</td>
+    <td>150</td>
+  </tr>
+</table>
+<br><br>
+
+<tr>
+  <td><label>Enter total number of coffees you want to order: </label></td>
+<td><input type="text" id="noc" name="lname"></td>
+<td><input onclick="myFunction()" type="submit" value="Submit"></td>
+</tr>
+<br><br>
+
+<fieldset>   
+  
+  <legend id="head"><b>Select and submit Coffee details for each order </b></legend> 
+  <br>
+  <tr>
+    <td>
+  <label for="coftext">Choose the type of coffee for order:</label>
+  </td>
+  <td>
+  <select name="cof" id="cof">
+    <option value="nul">Select coffee</option>
+      <option value="Espresso">Espresso</option>
+      <option value="Cappuccino">Cappuccino</option>
+      <option value="Latte">Latte</option>
+    </select>
+  </td>
+  
+  </tr>
+  <br>
+  <tr>
+
+  <label>Select addons on the coffee: </label>     
+  <input type="checkbox" id="m" name="m" value="1">Milk     
+  <input type="checkbox" id="c" name="c" value="1">Cream 
+  <input type="checkbox" id="l" name="l" value="1">Latte    
+  <br> 
+</tr>    
+<br>
+<p id="er"></p>
+  <input onclick="addOrder()" id="sub" type="submit" value="Submit order" />      
+</fieldset>     
+<br><br> 
+<div id="billrep">
+
+</div>
+<footer>
+  <p>Author: Edula Vinay Kumar Reddy<br>
+  <a href="mailto:vinaykumarreddyedula@gmail.com">vinaykumarreddyedula@gmail.com</a></p>
+</footer>
+</body>
+
+</html>
